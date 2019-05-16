@@ -1,0 +1,7 @@
+# Files/folders on local for git to ignore
+
+# notebook checkpoints 
+.ipynb_checkpoints/
+
+# pycache
+__pycache/
