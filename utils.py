@@ -1,5 +1,17 @@
 import pandas as pd
 
+def read_txt(path):
+    """Read new line seperated text file into list"""
+    with open(path, 'r') as f:
+        return f.read().splitlines()
+        
+def write_txt(path, _list):
+    """Write list into new line seperated text file"""
+    with open(path, 'w') as f:
+        for line in _list:
+            f.write('{}\n'.format(line))
+            
+
 def save_text_helper(list):
         text_holder = ""
         for sent in list:
