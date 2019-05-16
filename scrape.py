@@ -2,6 +2,7 @@
 
 import requests
 import pandas as pd
+from bs4 import BeautifulSoup
 
 
 ##### Article URL tools #####
@@ -64,3 +65,34 @@ def get_df_from_teamname_links(link_list):
     dfs = dfs.drop("NaN")
     dfs.drop_duplicates('data-id')
     return dfs
+
+
+##### Article Text Tools #####
+
+def export_summary_from_url (link):
+    html_page =  requests.get(link)
+    soup = BeautifulSoup(html_page.content, 'lxml')
+    # assuming p tags are all within article tag, seems to work
+    paragraph_html_list = soup.find_all("p")
+    textContent = [p.text for p in paragraph_html_list]
+    
+    return textContent[0]
+
+def export_headline_from_url (link):
+    html_page =  requests.get(link)
+    soup = BeautifulSoup(html_page.content, 'lxml')
+    # assuming p tags are all within article tag, seems to work
+    headline_html_list = soup.article.find_all("h1")
+    # within the article tag is the correct header
+    headlines = [h1.text for h1 in headline_html_list]        
+    return headlines[0]
+
+def export_alltext (link):
+    html_page =  requests.get(link)
+    soup = BeautifulSoup(html_page.content, 'lxml')
+    # assuming p tags are all within article tag, seems to work
+    paragraph_html_list = soup.find_all("p")
+    textContent = [p.text for p in paragraph_html_list]
+    allText = " ".join(textContent)
+    allText = allText.replace("|", "")
+    return allText
